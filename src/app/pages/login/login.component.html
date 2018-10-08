@@ -1,0 +1,27 @@
+<div class="card bg-secondary mb-3 _card-block">
+  <div class="card-body">
+    <form class="form-signin">
+      <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Пожалуйста авторизируйтесь</h1>
+      <div class="form-group">
+        <label for="email">Email адресс</label>
+        <input type="email" class="form-control" id="email" placeholder="Введите email" required="">
+      </div>
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" class="form-control" id="password" placeholder="Введите пароль" required="">
+      </div>
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="checkbox" checked="">
+          <label class="custom-control-label" for="checkbox">Запомнить меня</label>
+        </div>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+      <button (click)="login()" class="btn btn-lg btn-primary btn-block google-login" type="button">
+        <i class="fab fa-google-plus-g"></i>
+      </button>
+      <p class="mt-5 mb-3 text-muted">©2018</p>
+    </form>
+  </div>
+</div>

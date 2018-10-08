@@ -1,0 +1,14 @@
+<div *ngIf="afAuth.user | async as user; else login" style="display: flex">
+  <div class="user-name">
+    {{ user.displayName }} 
+  </div>
+  <div class="ml-2">
+    <a (click)="logout()" class="logout" href="#" >Выйти</a>
+  </div>
+</div>
+<ng-template #login>
+  <button 
+    [routerLink]="['/login']" 
+    class="btn btn-secondary my-2 my-sm-0" 
+    type="button">Войти</button>
+</ng-template>
