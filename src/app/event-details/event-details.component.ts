@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EventModel } from '../models/event.model';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-event-details',
@@ -13,6 +13,7 @@ import { map, switchMap } from 'rxjs/operators';
 export class EventDetailsComponent implements OnInit {
 
   public event$: Observable<EventModel>;
+  public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private afs: AngularFirestore,
@@ -20,8 +21,10 @@ export class EventDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading$.next(true);
     this.event$ = this.route.params.pipe(
         switchMap(p => this.afs.doc<EventModel>(`events/${p.id}`).valueChanges()),
+        tap(() => this.loading$.next(false)),
      );
   }
 

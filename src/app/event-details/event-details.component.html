@@ -1,3 +1,4 @@
+<app-loader [isLoading]="loading$ | async"></app-loader>
 <div class="container">
   <ng-container *ngIf="event$ | async as event">
     <h2 class="card-title mt-4">{{event.name}}</h2>

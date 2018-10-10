@@ -4,7 +4,7 @@ import { EventModel } from '../models/event.model';
 import { BehaviorSubject, from, Observable, empty, of } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { map, switchMap, last } from 'rxjs/operators';
+import { map, switchMap, last, tap } from 'rxjs/operators';
 import { keys } from 'lodash';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AgreementModalComponent } from '../agreement-modal/agreement-modal.component';
@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 })
 export class EventNewComponent implements OnInit {
 
+  public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public dateStr: string;
   public imgFileName: string;
   public file: File;
@@ -80,11 +81,15 @@ export class EventNewComponent implements OnInit {
 
     modalRef.result
       .then(
-        () => this.uploadImage$()
+        () => {
+          this.loading$.next(true);
+          this.uploadImage$()
           .pipe(
-            switchMap((imgUrl: string) => this.addEvent$(this.updateEventModel(this.event), imgUrl))
+            switchMap((imgUrl: string) => this.addEvent$(this.updateEventModel(this.event), imgUrl)),
+            tap(() => this.loading$.next(false)),
           )
-          .subscribe((docId: string) => this.router.navigate([`/events`, docId]))
+          .subscribe((docId: string) => this.router.navigate([`/events`, docId]));
+        }
       );
   }
 
