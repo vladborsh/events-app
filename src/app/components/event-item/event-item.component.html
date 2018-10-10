@@ -1,12 +1,11 @@
 <div *ngIf="event" class="card" style="border:none">
-  <img style="height: 200px; width: 100%; display: block;" src="{{defaultImgLink}}" alt="">
+  <img style="height: 200px; width: 100%; display: block;" [src]="event.img_link || defaultImgLink" alt="">
   <div class="card-body">
     <h4 class="card-title">{{event.name}}</h4>
     <h6 class="card-subtitle mb-2 text-muted">{{event.date | date: 'MMM dd yyyy, h:mm'}}</h6>
     <p class="card-text">{{event.short_description}}</p>
     <div class="d-flex justify-content-between align-items-center">
       <a [routerLink]="[ '/events', event.$key ]" class="card-link">Подробнее</a>
-      <button type="button" class="btn btn-primary ml-2">Забронировать</button>
     </div>
   </div>
 </div>

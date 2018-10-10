@@ -1,3 +1,101 @@
-<p>
-  event-new works!
-</p>
+<div class="container">
+  <form [formGroup]="eventForm">
+    <div class="row mt-4 mb-2">
+      <div class="col">
+        <h3>Новое событие</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8 pr-4">
+        <div class="form-group">
+          <label class="col-form-label">Название</label>
+          <input [formControl]="eventForm.controls.name" type="text" class="form-control" placeholder="Название для события">
+          <small id="emailHelp" class="form-text text-muted">Выбирите уникальное название которе будет привлекательным
+            для ваших гостей</small>
+        </div>
+        <div class="form-group">
+          <label class="col-form-label">Короткое описание</label>
+          <input [formControl]="eventForm.controls.short_description" type="text" class="form-control" placeholder="Это будет отображено в афише">
+        </div>
+        <div class="form-group">
+          <label class="col-form-label">Полное описание</label>
+          <textarea [formControl]="eventForm.controls.description" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="col-form-label">Тип</label>
+          <div class="custom-control custom-radio">
+            <input [formControl]="eventForm.controls.type" value="event" type="radio" id="customRadio1" class="custom-control-input" checked>
+            <label class="custom-control-label" for="customRadio1">Событие</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input [formControl]="eventForm.controls.type" value="concert" type="radio" id="customRadio2" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio2">Концерт</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input [formControl]="eventForm.controls.type" value="show" type="radio" id="customRadio3" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio3">Шоу</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 border-left pl-4">
+        <div class="form-group">
+          <label class="col-form-label">Дата</label>
+          <div class="input-group">
+            <input [formControl]="eventForm.controls.date" class="form-control" placeholder="yyyy-mm-dd"  ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+            </div>
+          </div>
+          <small id="emailHelp" class="form-text text-muted">После этой даты событие будет заархивировано</small>
+        </div>
+        <div class="form-group">
+          <label class="col-form-label">Колличество мест</label>
+          <div class="input-group" style="width:200px">
+            <input [formControl]="eventForm.controls.number_of_seats" class="form-control" placeholder="0">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">-</button>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-form-label">Цена билета</label>
+          <div class="input-group">
+            <input [formControl]="eventForm.controls.number_of_seats" class="form-control" placeholder="0">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">-</button>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">+</button>
+            </div>
+            <div class="input-group-append" ngbDropdown>
+              <button class="btn btn-outline-secondary" id="currency" ngbDropdownToggle>{{event.ticket_currency}}</button>
+              <div ngbDropdownMenu aria-labelledby="currency">
+                <button (click)="setTicketCurrency('UAH')" class="dropdown-item">UAH</button>
+                <button (click)="setTicketCurrency('EUR')" class="dropdown-item">EUR</button>
+                <button (click)="setTicketCurrency('USD')" class="dropdown-item">USD</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-form-label">Фотография</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" (change)="upload($event)">
+              <label class="custom-file-label">Выберите файл</label>
+            </div>
+          </div>
+          <img src="{{imgUri$ | async}}" alt="" style="width:100%;">
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <button [disabled]="!eventForm.valid" (click)="submit()" type="button" class="btn btn-primary">Зоздать</button>
+      </div>
+    </div>
+  </form>
+</div>

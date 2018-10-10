@@ -8,10 +8,16 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a  class="nav-link" [routerLink]="[ '/events' ]">События</a>
+          <a  class="nav-link" [routerLink]="[ '/events' ]" [queryParams]="{type:'common'}">События</a>
         </li>
         <li class="nav-item">
-          <a  class="nav-link" [routerLink]="[ '/events', 'new' ]">Организовать</a>
+          <a  class="nav-link" [routerLink]="[ '/events' ]" [queryParams]="{type:'concert'}">Концерты</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" [routerLink]="[ '/events' ]" [queryParams]="{type:'show'}">Шоу</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" [routerLink]="[ '/events-new' ]">Организовать</a>
         </li>
       </ul>
       <app-user-block></app-user-block>

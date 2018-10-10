@@ -22,7 +22,6 @@ export class EventCatalogComponent implements OnInit {
     this.items$ = this.afs.collection<EventModel>('events').snapshotChanges()
       .pipe(
         map(events => events.map(event => ({ $key: event.payload.doc.id, ...event.payload.doc.data() }))),
-        tap(console.log)
       );
   }
 
