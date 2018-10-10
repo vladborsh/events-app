@@ -54,6 +54,15 @@ export class EventNewComponent implements OnInit {
     };
   }
 
+  public updateFormControl(controlName: string, value: number) {
+    const result = this.eventForm.controls[controlName].value + value;
+    if (result >= 0) {
+      this.eventForm.controls[controlName].setValue(result);
+    } else {
+      this.eventForm.controls[controlName].setValue(0);
+    }
+  }
+
   public changeImage(uploadEvent) {
     this.imgFileName = uploadEvent.target.files[0].name;
     this.file = uploadEvent.target.files[0];

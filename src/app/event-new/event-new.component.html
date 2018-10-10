@@ -53,22 +53,22 @@
           <div class="input-group" style="width:200px">
             <input [formControl]="eventForm.controls.number_of_seats" class="form-control" placeholder="0">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">-</button>
+              <button (click)="updateFormControl('number_of_seats', -100)" class="btn btn-outline-secondary" type="button">-</button>
             </div>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">+</button>
+              <button (click)="updateFormControl('number_of_seats', 100)" class="btn btn-outline-secondary" type="button">+</button>
             </div>
           </div>
         </div>
         <div class="form-group">
           <label class="col-form-label">Цена билета</label>
           <div class="input-group">
-            <input [formControl]="eventForm.controls.number_of_seats" class="form-control" placeholder="0">
+            <input [formControl]="eventForm.controls.ticket_price" class="form-control" placeholder="0">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">-</button>
+              <button (click)="updateFormControl('ticket_price', -100)" class="btn btn-outline-secondary" type="button">-</button>
             </div>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">+</button>
+              <button (click)="updateFormControl('ticket_price', 100)" class="btn btn-outline-secondary" type="button">+</button>
             </div>
             <div class="input-group-append" ngbDropdown>
               <button class="btn btn-outline-secondary" id="currency" ngbDropdownToggle>{{event.ticket_currency}}</button>
