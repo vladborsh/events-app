@@ -18,6 +18,8 @@ import { AuthService } from './services/auth/auth.service';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventNewComponent } from './event-new/event-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from './loader/loader.component';
+import { AgreementModalComponent } from './agreement-modal/agreement-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UserBlockComponent,
     EventDetailsComponent,
     EventNewComponent,
+    LoaderComponent,
+    AgreementModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   providers: [
     AuthService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AgreementModalComponent],
 })
 export class AppModule { }

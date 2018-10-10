@@ -84,8 +84,8 @@
           <label class="col-form-label">Фотография</label>
           <div class="input-group">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" (change)="upload($event)">
-              <label class="custom-file-label">Выберите файл</label>
+              <input type="file" class="custom-file-input" (change)="changeImage($event)">
+              <label class="custom-file-label">{{ imgFileName || 'Выберите файл' }}</label>
             </div>
           </div>
           <img src="{{imgUri$ | async}}" alt="" style="width:100%;">
@@ -94,7 +94,7 @@
     </div>
     <div class="row mt-3">
       <div class="col">
-        <button [disabled]="!eventForm.valid" (click)="submit()" type="button" class="btn btn-primary">Зоздать</button>
+        <button [disabled]="!eventForm.valid" (click)="submit()" type="button" class="btn btn-primary">Cоздать</button>
       </div>
     </div>
   </form>

@@ -6,7 +6,9 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { map, switchMap, last } from 'rxjs/operators';
 import { keys } from 'lodash';
-import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AgreementModalComponent } from '../agreement-modal/agreement-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-new',
@@ -17,6 +19,8 @@ import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap
 export class EventNewComponent implements OnInit {
 
   public dateStr: string;
+  public imgFileName: string;
+  public file: File;
   public event: EventModel;
   public eventForm: FormGroup = this.builder.group({
     name: new FormControl('', [Validators.required]),
@@ -27,12 +31,13 @@ export class EventNewComponent implements OnInit {
     ticket_price: new FormControl(0, [Validators.required]),
     type: new FormControl('event', [Validators.required]),
   });
-  public img$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(
     private builder: FormBuilder,
     private storage: AngularFireStorage,
     private afs: AngularFirestore,
+    private modalService: NgbModal,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -49,13 +54,9 @@ export class EventNewComponent implements OnInit {
     };
   }
 
-  public upload(uploadEvent) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      this.img$.next(reader.result as string);
-    };
-    reader.readAsDataURL(uploadEvent.target.files[0]);
-    this.img$.next(uploadEvent.target.files[0]);
+  public changeImage(uploadEvent) {
+    this.imgFileName = uploadEvent.target.files[0].name;
+    this.file = uploadEvent.target.files[0];
   }
 
   public setTicketCurrency(curr) {
@@ -63,11 +64,19 @@ export class EventNewComponent implements OnInit {
   }
 
   public submit() {
-    this.uploadImage$()
-      .pipe(
-        switchMap((imgUrl: string) => this.addEvent$(this.updateEventModel(this.event), imgUrl))
-      )
-      .subscribe();
+    const modalRef = this.modalService.open(AgreementModalComponent);
+    modalRef.componentInstance.header = 'Добавление события';
+    modalRef.componentInstance.text = 'Вы уверены что хотите добавить это событие?';
+    modalRef.componentInstance.submit = 'Да, поехали!';
+
+    modalRef.result
+      .then(
+        () => this.uploadImage$()
+          .pipe(
+            switchMap((imgUrl: string) => this.addEvent$(this.updateEventModel(this.event), imgUrl))
+          )
+          .subscribe((docId: string) => this.router.navigate([`/events`, docId]))
+      );
   }
 
   private updateEventModel(event: EventModel): EventModel {
@@ -82,12 +91,8 @@ export class EventNewComponent implements OnInit {
   }
 
   private uploadImage$(): Observable<string> {
-    const imgContent = this.img$.getValue();
-    if (!imgContent) {
-      return of('');
-    }
     const fileRef = this.storage.ref(`img-${ new Date().getTime() }.jpg`);
-    const task = fileRef.putString(imgContent);
+    const task = fileRef.put(this.file);
     return task.snapshotChanges().pipe(
       last(),
       switchMap(() => fileRef.getDownloadURL()),
@@ -95,14 +100,10 @@ export class EventNewComponent implements OnInit {
   }
 
   private addEvent$(event: EventModel, img_link: string): Observable<string> {
-    return from(this.afs.collection<EventModel>('events').add({...event, img_link}))
+    return from(this.afs.collection<EventModel>('events').add({ ...event, img_link }))
       .pipe(
         map((docRef: DocumentReference) => docRef.id),
       );
-  }
-
-  private mapIdToImgPath(id: string): string {
-    return `${id}-img`;
   }
 
 }
