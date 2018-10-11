@@ -14,12 +14,12 @@ import { EventCatalogComponent } from './components/event-catalog/event-catalog.
 import { LoginComponent } from './pages/login/login.component';
 import { EventItemComponent } from './components/event-item/event-item.component';
 import { UserBlockComponent } from './components/user-block/user-block.component';
-import { AuthService } from './services/auth/auth.service';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventNewComponent } from './event-new/event-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { AgreementModalComponent } from './agreement-modal/agreement-modal.component';
+import { PaymentService } from './services/payment.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { AgreementModalComponent } from './agreement-modal/agreement-modal.compo
     AngularFireStorageModule,
   ],
   providers: [
-    AuthService,
+    PaymentService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [AgreementModalComponent],

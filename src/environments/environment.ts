@@ -11,7 +11,8 @@ export const environment = {
     projectId: 'event-app-378e3',
     storageBucket: 'event-app-378e3.appspot.com',
     messagingSenderId: '371043018894'
-  }
+  },
+  stripeToken: 'pk_test_QfBrl3ejsTmKjH08NjeTH8uR'
 };
 
 /*

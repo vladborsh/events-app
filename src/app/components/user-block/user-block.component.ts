@@ -14,7 +14,7 @@ export class UserBlockComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.afAuth.user.subscribe(val => console.log(val));
+    this.afAuth.user.subscribe(val => {});
   }
 
   public logout(): void {
